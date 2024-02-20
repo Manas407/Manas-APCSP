@@ -4,6 +4,9 @@ import csv
 import sys
 import random
 from datetime import date
+from os import system, name
+from time import sleep
+
 # psuedocode
 # start by making the main function where we print the menu options and prompt input
 # with nested if statements recieve inputs and go to the corresponding functions
@@ -17,6 +20,12 @@ from datetime import date
 # if the tries counter is incremented enough print a game over message and call the main function to print the menu and restart everything and reset all arrays
 # globalscore = 0
 # n = "a"
+def clear():
+    #windows
+    if name == 'nt':
+        _ = system('cls')
+    else:
+        _ = system('clear')
 def ends(score):
     globalscore = score
     # print(globalscore)
@@ -32,7 +41,7 @@ def ends(score):
     score = globalscore
     dateh = date.today()
     file = open("leaderboard.txt","a")
-    file.write(str(score)+" points achieved by: "+ str(n) + " on " + str(dateh))
+    file.write(str(score)+" points achieved by: "+ str(n) + " on " + str(dateh)+"\n")
     file.close()
 
     menu()
@@ -47,7 +56,7 @@ def scoreboardr():
     # learned sorted from a website on how to print from a text file
     print("----Leaderboard for wordgame----")
     for row in range(len(gtl)):
-         print(row+1, "  ", {str(gtl[row])})
+         print(row+1, "  ", gtl[row])
     exi = input("to return to menu press enter:")
     menu()
 
@@ -71,11 +80,16 @@ def comp(wordc):
 
     for t in range(triesleft):
 # dual for loops to compare letters in the alotted tries
+        ril = 0
         for i in range(wordl):
             if letteri == wordc[i]:
                 printer[i] = letteri
+                 #ril += 1
                 # THE KEY
                 # if letter matched then save the index where it matched and print the letter with that index in the spaces array
+        # if ril > 0:
+        #     triesleft +=1
+        #     t -=1
         triesleft -= 1
         if len(letteri) > 1:
             if letteri == wordc:
@@ -86,9 +100,9 @@ def comp(wordc):
                 print("keep trying.. womp womp...")
         print(*printer)
         #print amount of chances left
-        letteri = input(f"input letters only and if you know the word enter the word, remember you only have {triesleft + 1} more chances! ")
+        letteri = input(f"input letters only and if you know the word enter the word, remember you only have {triesleft+1} more chances! ")
         while not letteri.isalpha():
-            letteri = input(f"input letters only and if you know the word enter the word but remember you only have {triesleft + 1} left! ")
+            letteri = input(f"input letters only and if you know the word enter the word but remember you only have {triesleft+1} left! ")
 
     if len(letteri) > 1:
             #if the size of the input is more then 1 it is a word so compare the strings
@@ -111,6 +125,8 @@ def instructions():
     print("once you feel confident you can enter the complete word which if correct will give you your score ")
     print("last but not least play wisely as you only have as many chances as length of the word minus 1")
     print("Goodluck guessing!")
+    input("press enter to return to menu: ")
+    menu()
 def selection2():
     #wordbank
     great_foods = {
@@ -167,6 +183,7 @@ def menu():
     #branch depending on input
     #if the return is true and the player guessed the word then go to scoreboard fucntion and call the main function
     #turn menu into a function
+    clear()
     print("              Word Guesser              ")
     print("       1. Game instructions         ")
     print("       2. Common foods wordbank        ")
@@ -205,6 +222,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
 
 
